@@ -1,7 +1,7 @@
 import telebot
 from telebot import types
 
-bot = telebot.TeleBot('8666423933:AAHOwpR41LGBJrDv9s35bg5PDbmXZDme2aI')
+bot = telebot.TeleBot('8853422123:AAHcETMPW69aw10j3GxWo0Mj_sd0J0OJry4')
 
 products_breakfast = ["Яйцо","Овсянка","Хлеб","Сыр","Ветчина","Творог","Йогурт","Молоко","Банан","Яблоко","Клубника","Авокадо","Сливочное масло","Мёд",
 "Арахисовая паста","Орехи","Блины","Вафли","Круассан","Гречневая каша"]
