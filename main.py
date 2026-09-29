@@ -1,13 +1,15 @@
 import telebot
 from telebot import types
 
-bot = telebot.TeleBot('8666423933:AAHOwpR41LGBJrDv9s35bg5PDbmXZDme2aI')
+bot = telebot.TeleBot('8853422123:AAHcETMPW69aw10j3GxWo0Mj_sd0J0OJry4')
 
 products_breakfast = ["Яйцо","Овсянка","Хлеб","Сыр","Ветчина","Творог","Йогурт","Молоко","Банан","Яблоко","Клубника","Авокадо","Сливочное масло","Мёд",
 "Арахисовая паста","Орехи","Блины","Вафли","Круассан","Гречневая каша"]
 
 calories_breakfast = [157,370,250,350,145,121,60,52,89,52,32,160,
 748,304,588,600,230,290,406,110]
+
+spisok = []
 
 def select_age_group(age, age_group, message):
     file = open(str(message.from_user.id), 'w')
@@ -34,11 +36,20 @@ def start(message):
 
 @bot.message_handler()
 def age(message):
+    global_i = []
+
+    try:
+        age_select = False
+    except FileNotFoundError:
+        age_select = True
+
     for i in range(len(products_breakfast)):
         if message.text.lower() == products_breakfast[i].lower():
-            print('"++')
+            global_i = i
+            bot.send_message('Сколько вы сьели (в граммах)?')
             bot.send_message(message.chat.id, f'{calories_breakfast[i]}, {products_breakfast[i]}')
             return
+
     if message.text.lower() == 'возраст':
         file = open(str(message.from_user.id), "r")
         text = file.read()
@@ -62,7 +73,7 @@ def age(message):
         return
     if message.text.lower() == 'завтрак':
         markup = types.ReplyKeyboardMarkup()
-        btn = types.KeyboardButton('В меню')
+        btn = types.KeyboardButton('⬅️В меню⬅️')
         markup.add(btn)
         for i in range(len(products_breakfast)):
             btn1 = types.KeyboardButton(products_breakfast[i])
@@ -83,21 +94,28 @@ def age(message):
         return
 
     if message.text.isdigit():
-        age_int = int(message.text)
-        if age_int < 18:
-            bot.send_message(message.chat.id, 'Рано еще каллории считать')
-        if 18 <= age_int <= 30:
-            select_age_group(age=age_int, age_group=1, message=message)
-            create_keyboard(message)
-        if 31 <= age_int <= 45:
-            select_age_group(age=age_int, age_group=2, message=message)
-            create_keyboard(message)
-        if 46 <= age_int <= 60:
-            select_age_group(age=age_int, age_group=3, message=message)
-            create_keyboard(message)
-        if age_int > 60:
-            select_age_group(age=age_int, age_group=4, message=message)
-            create_keyboard(message)
+        if age_select == True:
+            age_int = int(message.text)
+            if age_int < 18:
+                bot.send_message(message.chat.id, 'Рано еще каллории считать')
+            if 18 <= age_int <= 30:
+                select_age_group(age=age_int, age_group=1, message=message)
+                create_keyboard(message)
+            if 31 <= age_int <= 45:
+                select_age_group(age=age_int, age_group=2, message=message)
+                create_keyboard(message)
+            if 46 <= age_int <= 60:
+                select_age_group(age=age_int, age_group=3, message=message)
+                create_keyboard(message)
+            if age_int > 60:
+                select_age_group(age=age_int, age_group=4, message=message)
+                create_keyboard(message)
+        else:
+            gramms_food = int(message.text)
+            spisok.append(gramms_food)
+            bot.send_message(message.chat.id, 'Добавлено✅')
+            bot.send_message(message.chat.id, f'Список: {spisok}')
+
 
     else:
         try:
