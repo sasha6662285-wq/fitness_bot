@@ -105,15 +105,19 @@ def age(message):
             if 18 <= age_int <= 30:
                 select_age_group(age=age_int, age_group=1, message=message)
                 create_keyboard(message)
+                age_select = False
             if 31 <= age_int <= 45:
                 select_age_group(age=age_int, age_group=2, message=message)
                 create_keyboard(message)
+                age_select = False
             if 46 <= age_int <= 60:
                 select_age_group(age=age_int, age_group=3, message=message)
                 create_keyboard(message)
+                age_select = False
             if age_int > 60:
                 select_age_group(age=age_int, age_group=4, message=message)
                 create_keyboard(message)
+                age_select = False
         else:
             gramms_food = int(message.text)
             spisok.append(gramms_food)
