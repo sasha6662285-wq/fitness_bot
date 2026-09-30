@@ -11,6 +11,8 @@ calories_breakfast = [157,370,250,350,145,121,60,52,89,52,32,160,
 
 spisok = []
 
+age_select = False
+
 def select_age_group(age, age_group, message):
     file = open(str(message.from_user.id), 'w')
     file.write(str(age_group))
@@ -39,7 +41,9 @@ def age(message):
     global_i = []
 
     try:
-        age_select = False
+        file1 = open(f'{str(message.from_user.id)}age', 'r')
+        text1 = file1.read()
+        file1.close()
     except FileNotFoundError:
         age_select = True
 
